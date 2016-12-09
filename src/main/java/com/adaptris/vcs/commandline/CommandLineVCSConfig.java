@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.*;
 
 import static com.adaptris.core.management.vcs.VcsConstants.*;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_PROPERTIES_PREFIX;
 import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_TIMEOUT;
 
 class CommandLineVCSConfig {
@@ -15,6 +16,7 @@ class CommandLineVCSConfig {
   private String revision;
   private Properties bootstrapProperties;
   private Long timeout;
+  private Map<String, String> additionalProperties;
 
   private static final String DEFAULT_TIMEOUT = "60000";
 
@@ -48,6 +50,17 @@ class CommandLineVCSConfig {
 
   long getTimeout(){
     return timeout;
+  }
+
+  Map<String, String> getAdditionalProperties() {
+    if (additionalProperties == null){
+      additionalProperties = new HashMap<>();
+      SortedSet<String> keys = new TreeSet<>(PropertyHelper.getPropertySubset(bootstrapProperties, VCS_COMMAND_LINE_PROPERTIES_PREFIX, true).stringPropertyNames());
+      for (String key : keys) {
+        additionalProperties.put(key.replaceFirst("^" + VCS_COMMAND_LINE_PROPERTIES_PREFIX, ""), bootstrapProperties.getProperty(key));
+      }
+    }
+    return additionalProperties;
   }
 
   List<String> getCommands(String filterKey){

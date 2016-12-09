@@ -272,6 +272,21 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     assertEquals("multi.command.0...multi.command.1", result);
   }
 
+  @Test
+  public void commandLineActionAdditionalProperties() throws Exception {
+    Properties properties = new Properties();
+    properties.put(VCS_LOCAL_URL_KEY, temporaryDir.toURI().toURL().toString());
+    properties.put(VCS_REMOTE_REPO_URL_KEY, REMOTE_REPO);
+    properties.put(VCS_COMMAND_LINE_PROPERTIES_PREFIX + "additional", "property");
+    properties.put("ap.command", "echo -n \"ap.command\"");
+    CommandLineVCS vcs = Mockito.spy(new CommandLineVCS(properties));
+    String result = vcs.commandLineAction("ap.command",new HashMap<String, String>());
+    verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),captorSubMap.capture());
+    assertEquals("ap.command", result);
+    assertEquals(1, captorSubMap.getValue().size());
+    assertEquals("property", captorSubMap.getValue().get("additional"));
+  }
+
 
   @Test
   public void getImplementationName() throws Exception {

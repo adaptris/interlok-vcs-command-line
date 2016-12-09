@@ -4,6 +4,8 @@ public class CommandLineVCSConstants {
 
   public static final String VCS_COMMAND_LINE_TIMEOUT = "vcs.command.line.timeout";
 
+  public static final String VCS_COMMAND_LINE_PROPERTIES_PREFIX = "vcs.command.line.properties.";
+
   public static final String VCS_COMMAND_LINE_TEST_CONNECTION = "vcs.command.line.test.connection";
   public static final String VCS_COMMAND_LINE_CHECKOUT = "vcs.command.line.checkout";
   public static final String VCS_COMMAND_LINE_UPDATE = "vcs.command.line.update";

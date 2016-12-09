@@ -147,6 +147,8 @@ public class CommandLineVCS implements VersionControlSystem {
   }
 
   String commandLineAction(String filterKey, Map<String, String> substitutionMap, final String repeatedKey) throws VcsException{
+
+    substitutionMap.putAll(getConfig().getAdditionalProperties());
     List<String> commands = getConfig().getCommands(filterKey);
     if (commands.size() == 0) {
       log.warn("{}: [{}] not configured, skipping checkout.", getImplementationName(), filterKey);
