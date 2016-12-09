@@ -62,10 +62,10 @@ public class CommandLineRVC implements RuntimeVersionControl {
 
   private void commandLineCheckout(CommandLineVCSConfig config) throws VcsException {
     if (!config.isConfigured()) {
-      log.info("GIT: [{}] or [{}] not configured, skipping checkout.", VCS_LOCAL_URL_KEY, VCS_REMOTE_REPO_URL_KEY);
+      log.info("{}: [{}] or [{}] not configured, skipping checkout.", getImplementationName(), VCS_LOCAL_URL_KEY, VCS_REMOTE_REPO_URL_KEY);
       return;
     }
-    log.info("GIT: Performing checkout to [{}] ", CommandLineVCSUtils.fullpath(config.getLocalRepo()));
+    log.info("{}: Performing checkout to [{}] ",getImplementationName(), CommandLineVCSUtils.fullpath(config.getLocalRepo()));
     if (!config.hasRevision()) {
       this.api().checkout(config.getRemoteRepo(), config.getLocalRepo());
     } else {
@@ -76,7 +76,7 @@ public class CommandLineRVC implements RuntimeVersionControl {
 
   private void commandLineUpdate(CommandLineVCSConfig config) throws VcsException {
     if (!config.isConfigured()) {
-      log.info("GIT: [{}] not configured skipping repository update.", VCS_LOCAL_URL_KEY);
+      log.info("{}: [{}] not configured skipping repository update.",getImplementationName(), VCS_LOCAL_URL_KEY);
       return;
     }
     String checkoutRevision;
@@ -85,7 +85,7 @@ public class CommandLineRVC implements RuntimeVersionControl {
     } else {
       checkoutRevision = this.api().update(config.getLocalRepo(), config.getRevision());
     }
-    log.info("GIT: Updated configuration to revision: {}", checkoutRevision);
+    log.info("{}: Updated configuration to revision: {}",getImplementationName(), checkoutRevision);
   }
 
 
