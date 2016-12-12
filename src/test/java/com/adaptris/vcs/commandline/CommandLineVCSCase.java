@@ -30,6 +30,8 @@ abstract class CommandLineVCSCase {
   ArgumentCaptor<Map<String, String>> captorSubMap;
   @Captor
   ArgumentCaptor<String> captureRepKey;
+  @Captor
+  ArgumentCaptor<File> captureWorkingDir;
 
   @Before
   public void setUp() throws Exception{

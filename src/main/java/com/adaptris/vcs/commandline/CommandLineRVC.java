@@ -7,10 +7,12 @@ import com.adaptris.core.management.vcs.VersionControlSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.Properties;
 
 import static com.adaptris.core.management.vcs.VcsConstants.VCS_LOCAL_URL_KEY;
 import static com.adaptris.core.management.vcs.VcsConstants.VCS_REMOTE_REPO_URL_KEY;
+import static com.adaptris.core.management.vcs.VcsConstants.VCS_REVISION_KEY;
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
 public class CommandLineRVC implements RuntimeVersionControl {
@@ -65,7 +67,7 @@ public class CommandLineRVC implements RuntimeVersionControl {
       log.info("{}: [{}] or [{}] not configured, skipping checkout.", getImplementationName(), VCS_LOCAL_URL_KEY, VCS_REMOTE_REPO_URL_KEY);
       return;
     }
-    log.info("{}: Performing checkout to [{}] ",getImplementationName(), CommandLineVCSUtils.fullpath(config.getLocalRepo()));
+    log.info("{}: Performing checkout to [{}] ", getImplementationName(), CommandLineVCSUtils.fullpath(config.getLocalRepo()));
     if (!config.hasRevision()) {
       this.api().checkout(config.getRemoteRepo(), config.getLocalRepo());
     } else {
@@ -76,16 +78,15 @@ public class CommandLineRVC implements RuntimeVersionControl {
 
   private void commandLineUpdate(CommandLineVCSConfig config) throws VcsException {
     if (!config.isConfigured()) {
-      log.info("{}: [{}] not configured skipping repository update.",getImplementationName(), VCS_LOCAL_URL_KEY);
+      log.info("{}: [{}] not configured, skipping update.", getImplementationName(), VCS_LOCAL_URL_KEY);
       return;
     }
-    String checkoutRevision;
+    log.info("{}: Performing update to [{}] ", getImplementationName(), CommandLineVCSUtils.fullpath(config.getLocalRepo()));
     if (isEmpty(config.getRevision())) {
-      checkoutRevision = this.api().update(config.getLocalRepo());
+      this.api().update(config.getLocalRepo());
     } else {
-      checkoutRevision = this.api().update(config.getLocalRepo(), config.getRevision());
+      this.api().update(config.getLocalRepo(), config.getRevision());
     }
-    log.info("{}: Updated configuration to revision: {}",getImplementationName(), checkoutRevision);
   }
 
 
@@ -120,5 +121,36 @@ public class CommandLineRVC implements RuntimeVersionControl {
     this.api = api;
   }
 
+  private class CommandLineVCSConfig {
+    private String localRepo;
+    private String remoteRepo;
+    private String revision;
 
+    CommandLineVCSConfig(Properties properties) {
+      localRepo = properties.getProperty(VCS_LOCAL_URL_KEY);
+      remoteRepo = properties.getProperty(VCS_REMOTE_REPO_URL_KEY);
+      revision = properties.getProperty(VCS_REVISION_KEY);
+
+    }
+
+    boolean isConfigured() {
+      return localRepo != null && remoteRepo != null;
+    }
+
+    boolean hasRevision() {
+      return revision != null;
+    }
+
+    String getRemoteRepo() {
+      return remoteRepo;
+    }
+
+    String getRevision() {
+      return revision;
+    }
+
+    File getLocalRepo() throws VcsException {
+      return CommandLineVCSUtils.urlToFile(localRepo);
+    }
+  }
 }
