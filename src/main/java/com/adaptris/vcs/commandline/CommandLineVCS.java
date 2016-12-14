@@ -5,6 +5,7 @@ import com.adaptris.core.management.vcs.VcsException;
 import com.adaptris.core.management.vcs.VersionControlSystem;
 import com.adaptris.core.util.PropertyHelper;
 import org.apache.commons.exec.*;
+import org.apache.commons.exec.util.StringUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,7 @@ import static com.adaptris.vcs.commandline.CommandLineVCSUtils.fullpath;
 
 public class CommandLineVCS implements VersionControlSystem {
 
-  private static final String VCS_NAME = "CommandLineVCS";
+  private static final String VCS_NAME = "CommandLine";
   private static final String DEFAULT_TIMEOUT = "60000";
 
   protected transient Logger log = LoggerFactory.getLogger(this.getClass());
@@ -185,6 +186,7 @@ public class CommandLineVCS implements VersionControlSystem {
             executeCommand(executor, command.replaceAll(repeatedKey, key), substitutionMap);
           }
         }
+        log.trace("Command output:\n" + outputStream.toString());
       }
       result = outputStream.toString();
     } catch (IOException e) {
@@ -208,10 +210,11 @@ public class CommandLineVCS implements VersionControlSystem {
   void executeCommand(Executor executor, final String command, final Map<String, String> substitutionMap) throws VcsException {
     CommandLine cmdLine = CommandLine.parse(command);
     cmdLine.setSubstitutionMap(substitutionMap);
+    log.debug("Executing command [" + StringUtils.toString(cmdLine.toStrings(), " ") + "]");
     try {
       executor.execute(cmdLine);
     } catch (IOException e) {
-      final String message = String.format("Command [%s] failed.", command);
+      final String message = String.format("Command [%s] failed.", StringUtils.toString(cmdLine.toStrings(), " "));
       log.error(message, e);
       throw new VcsException(message, e);
     }

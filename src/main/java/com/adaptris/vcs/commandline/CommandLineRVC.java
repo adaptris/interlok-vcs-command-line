@@ -19,7 +19,7 @@ public class CommandLineRVC implements RuntimeVersionControl {
 
   protected transient Logger log = LoggerFactory.getLogger(this.getClass());
 
-  private static final String VCS_NAME = "CommandLineVCS";
+  private static final String VCS_NAME = "CommandLine";
 
 
   private BootstrapProperties bootstrapProperties;
