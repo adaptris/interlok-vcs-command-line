@@ -32,16 +32,6 @@ public class CommandLineRVCTest extends CommandLineVCSCase {
     properties.put(VCS_LOCAL_URL_KEY, temporaryDir.toURI().toURL().toString());
     properties.put(VCS_REMOTE_REPO_URL_KEY, REMOTE_REPO);
 
-//    properties.put(VCS_COMMAND_LINE_TEST_CONNECTION, "echo -n \"test.connection\"");
-//    properties.put(VCS_COMMAND_LINE_CHECKOUT, "echo -n \"checkout\"");
-//    properties.put(VCS_COMMAND_LINE_UPDATE, "echo -n \"update\"");
-//    properties.put(VCS_COMMAND_LINE_COMMIT, "echo -n \"commit\"");
-//    properties.put(VCS_COMMAND_LINE_RECURSIVE_ADD, "echo -n \"recursive.add\"");
-//    properties.put(VCS_COMMAND_LINE_ADD_AND_COMMIT, "echo -n \"add.and.commit\"");
-//    properties.put(VCS_COMMAND_LINE_REMOTE_REVISION, "echo -n \"remote.revision\"");
-//    properties.put(VCS_COMMAND_LINE_LOCAL_REVISION, "echo -n \"local.revision\"");
-//    properties.put(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, "echo -n \"revision comment\"");
-
     MockitoAnnotations.initMocks(this);
   }
 

@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Properties;
 
-import static com.adaptris.core.management.vcs.VcsConstants.VCS_LOCAL_URL_KEY;
-import static com.adaptris.core.management.vcs.VcsConstants.VCS_REMOTE_REPO_URL_KEY;
-import static com.adaptris.core.management.vcs.VcsConstants.VCS_REVISION_KEY;
+import static com.adaptris.core.management.vcs.VcsConstants.*;
 import static org.apache.commons.lang.StringUtils.isEmpty;
 
 public class CommandLineRVC implements RuntimeVersionControl {
@@ -20,7 +18,6 @@ public class CommandLineRVC implements RuntimeVersionControl {
   protected transient Logger log = LoggerFactory.getLogger(this.getClass());
 
   private static final String VCS_NAME = "CommandLine";
-
 
   private BootstrapProperties bootstrapProperties;
 
@@ -98,8 +95,7 @@ public class CommandLineRVC implements RuntimeVersionControl {
 
   @Override
   public VersionControlSystem getApi(Properties properties) throws VcsException {
-    CommandLineVCS vcs = new CommandLineVCS(properties);
-    return vcs;
+    return new CommandLineVCS();
   }
 
   public BootstrapProperties getBootstrapProperties() {
