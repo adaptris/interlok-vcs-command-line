@@ -3,31 +3,53 @@ package com.adaptris.vcs.commandline;
 import com.adaptris.core.management.vcs.VcsConstants;
 import com.adaptris.core.management.vcs.VersionControlSystem;
 import com.adaptris.core.stubs.JunitBootstrapProperties;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 import java.util.Properties;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static com.adaptris.core.management.vcs.VcsConstants.VCS_LOCAL_URL_KEY;
+import static com.adaptris.core.management.vcs.VcsConstants.VCS_REMOTE_REPO_URL_KEY;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class CommandLineRVCTest extends CommandLineVCSCase {
 
   @Mock
   private CommandLineVCS mockApi;
 
+  @Before
+  public void setUp() throws Exception{
+    String tempDir = System.getProperty(TEMP_DIR_PROP);
+    temporaryDir = new File(tempDir);
+
+    properties = new Properties();
+    properties.put(VCS_LOCAL_URL_KEY, temporaryDir.toURI().toURL().toString());
+    properties.put(VCS_REMOTE_REPO_URL_KEY, REMOTE_REPO);
+
+//    properties.put(VCS_COMMAND_LINE_TEST_CONNECTION, "echo -n \"test.connection\"");
+//    properties.put(VCS_COMMAND_LINE_CHECKOUT, "echo -n \"checkout\"");
+//    properties.put(VCS_COMMAND_LINE_UPDATE, "echo -n \"update\"");
+//    properties.put(VCS_COMMAND_LINE_COMMIT, "echo -n \"commit\"");
+//    properties.put(VCS_COMMAND_LINE_RECURSIVE_ADD, "echo -n \"recursive.add\"");
+//    properties.put(VCS_COMMAND_LINE_ADD_AND_COMMIT, "echo -n \"add.and.commit\"");
+//    properties.put(VCS_COMMAND_LINE_REMOTE_REVISION, "echo -n \"remote.revision\"");
+//    properties.put(VCS_COMMAND_LINE_LOCAL_REVISION, "echo -n \"local.revision\"");
+//    properties.put(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, "echo -n \"revision comment\"");
+
+    MockitoAnnotations.initMocks(this);
+  }
+
 
   @Test
-  public void getImplementationName() throws Exception {
+  public void getImplementationName() throws   Exception {
     CommandLineRVC rvc = new CommandLineRVC(new JunitBootstrapProperties(properties));
-    assertEquals("CommandLineVCS",rvc.getImplementationName());
+    assertEquals("CommandLine",rvc.getImplementationName());
   }
 
   @Test

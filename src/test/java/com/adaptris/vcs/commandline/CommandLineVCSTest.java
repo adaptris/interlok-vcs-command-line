@@ -1,10 +1,14 @@
 package com.adaptris.vcs.commandline;
 
 import com.adaptris.core.management.vcs.RevisionHistoryItem;
+import com.adaptris.core.management.vcs.VcsException;
 import org.apache.commons.exec.Executor;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +26,27 @@ import static org.mockito.Mockito.verify;
 
 public class CommandLineVCSTest extends CommandLineVCSCase {
 
+  @Before
+  public void setUp() throws Exception{
+    String tempDir = System.getProperty(TEMP_DIR_PROP);
+    temporaryDir = new File(tempDir);
+
+    properties = new Properties();
+    properties.put(VCS_LOCAL_URL_KEY, temporaryDir.toURI().toURL().toString());
+    properties.put(VCS_REMOTE_REPO_URL_KEY, REMOTE_REPO);
+
+    properties.put(VCS_COMMAND_LINE_TEST_CONNECTION, "echo -n \"test.connection\"");
+    properties.put(VCS_COMMAND_LINE_CHECKOUT, "echo -n \"checkout\"");
+    properties.put(VCS_COMMAND_LINE_UPDATE, "echo -n \"update\"");
+    properties.put(VCS_COMMAND_LINE_COMMIT, "echo -n \"commit\"");
+    properties.put(VCS_COMMAND_LINE_RECURSIVE_ADD, "echo -n \"recursive.add\"");
+    properties.put(VCS_COMMAND_LINE_ADD_AND_COMMIT, "echo -n \"add.and.commit\"");
+    properties.put(VCS_COMMAND_LINE_REMOTE_REVISION, "echo -n \"remote.revision\"");
+    properties.put(VCS_COMMAND_LINE_LOCAL_REVISION, "echo -n \"local.revision\"");
+    properties.put(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, "echo -n \"revision comment\"");
+
+    MockitoAnnotations.initMocks(this);
+  }
 
   @Test
   public void testConnection() throws Exception {
@@ -240,9 +265,13 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     properties.put(VCS_LOCAL_URL_KEY, temporaryDir.toURI().toURL().toString());
     properties.put(VCS_REMOTE_REPO_URL_KEY, REMOTE_REPO);
     CommandLineVCS vcs = Mockito.spy(new CommandLineVCS(properties));
-    String result = vcs.commandLineAction("no.command",new HashMap<String, String>(), null);
+    try {
+      String result = vcs.commandLineAction("no.command", new HashMap<String, String>(), null);
+      fail();
+    } catch (VcsException expected){
+      assertEquals("CommandLine: Commands for [no.command] not configured.", expected.getMessage());
+    }
     verify(vcs, never()).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
-    assertNull(result);
   }
 
   @Test
@@ -261,7 +290,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
   @Test
   public void getImplementationName() throws Exception {
     CommandLineVCS vcs = new CommandLineVCS(properties);
-    assertEquals("CommandLineVCS",vcs.getImplementationName());
+    assertEquals("CommandLine",vcs.getImplementationName());
   }
 
   @Test

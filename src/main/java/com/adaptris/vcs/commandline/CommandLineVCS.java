@@ -41,7 +41,9 @@ public class CommandLineVCS implements VersionControlSystem {
   public String testConnection(String remoteRepoUrl, File workingCopyUrl) throws VcsException {
     Map<String, String> substitutionMap = new HashMap<>(getAdditionalProperties());
     substitutionMap.put(VCS_REMOTE_REPO_URL_KEY, remoteRepoUrl);
-    substitutionMap.put(VCS_LOCAL_URL_KEY, fullpath(workingCopyUrl));
+    if(workingCopyUrl != null) {
+      substitutionMap.put(VCS_LOCAL_URL_KEY, fullpath(workingCopyUrl));
+    }
     return commandLineAction(VCS_COMMAND_LINE_TEST_CONNECTION, substitutionMap, workingCopyUrl);
   }
 
@@ -161,8 +163,9 @@ public class CommandLineVCS implements VersionControlSystem {
 
     List<String> commands = getCommands(filterKey);
     if (commands.size() == 0) {
-      log.warn("{}: [{}] not configured, skipping checkout.", getImplementationName(), filterKey);
-      return null;
+      final String message = String.format("%s: Commands for [%s] not configured.", getImplementationName(), filterKey);
+      log.error(message);
+      throw new VcsException(message);
     }
 
     String result;
