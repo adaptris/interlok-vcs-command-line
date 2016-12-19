@@ -133,7 +133,7 @@ public class CommandLineVCS implements VersionControlSystem {
     for(String line : lines){
       String historyItem[] = line.split("\\s+", 2);
       if(historyItem.length < 2){
-        log.warn("{}: History item returned less that 2 items ignoring.", getImplementationName());
+        log.warn("{}: History item returned less than 2 items ignoring.", getImplementationName());
         continue;
       }
       history.add(new RevisionHistoryItem(historyItem[0],historyItem[1]));
