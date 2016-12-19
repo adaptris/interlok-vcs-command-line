@@ -10,10 +10,8 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 import static com.adaptris.core.management.vcs.VcsConstants.*;
@@ -146,6 +144,9 @@ public class CommandLineVCS implements VersionControlSystem {
   Properties getCommandProperties() throws VcsException{
     if(commandProperties == null) {
       try (InputStream in = this.getClass().getClassLoader().getResourceAsStream(COMMAND_PROPERTIES)){
+        if (in == null){
+          throw new FileNotFoundException(String.format("[%s] not available on classpath", COMMAND_PROPERTIES));
+        }
         commandProperties = new Properties();
         commandProperties.load(in);
       } catch (IOException e){
