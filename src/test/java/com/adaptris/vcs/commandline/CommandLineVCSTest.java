@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import static com.adaptris.core.management.vcs.VcsConstants.*;
 import static com.adaptris.vcs.commandline.CommandLineVCSConstants.*;
@@ -218,8 +219,9 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
 
   @Test
   public void getRemoteRevisionHistoryWithSpaces() throws Exception {
-    CommandLineVCS vcs = Mockito.spy(new CommandLineVCS());
-    vcs.getCommandProperties().put(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, "echo -n \"revision comment something else\"");
+    Properties properties = new Properties();
+    properties.put(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, "echo -n \"revision comment something else\"");
+    CommandLineVCS vcs = Mockito.spy(new CommandLineVCS(properties));
     List<RevisionHistoryItem> result = vcs.getRemoteRevisionHistory(REMOTE_REPO, temporaryDir, 1);
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
@@ -236,8 +238,9 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
 
   @Test
   public void getRemoteRevisionHistoryMultiLine() throws Exception {
-    CommandLineVCS vcs = Mockito.spy(new CommandLineVCS());
-    vcs.getCommandProperties().put(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, "echo -n \"revision1 comment1 something else\nrevision2 comment2 something else\"");
+    Properties properties = new Properties();
+    properties.put(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, "echo -n \"revision1 comment1 something else\nrevision2 comment2 something else\"");
+    CommandLineVCS vcs = Mockito.spy(new CommandLineVCS(properties));
     List<RevisionHistoryItem> result = vcs.getRemoteRevisionHistory(REMOTE_REPO, temporaryDir, 1);
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
@@ -268,11 +271,12 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
 
   @Test
   public void commandLineActionMultipleCommands() throws Exception {
-    CommandLineVCS vcs = Mockito.spy(new CommandLineVCS());
-    vcs.getCommandProperties().put(VCS_LOCAL_URL_KEY, temporaryDir.toURI().toURL().toString());
-    vcs.getCommandProperties().put(VCS_REMOTE_REPO_URL_KEY, REMOTE_REPO);
-    vcs.getCommandProperties().put("multi.command.0", "echo -n \"multi.command.0...\"");
-    vcs.getCommandProperties().put("multi.command.1", "echo -n \"multi.command.1\"");
+    Properties properties = new Properties();
+    properties.put(VCS_LOCAL_URL_KEY, temporaryDir.toURI().toURL().toString());
+    properties.put(VCS_REMOTE_REPO_URL_KEY, REMOTE_REPO);
+    properties.put("multi.command.0", "echo -n \"multi.command.0...\"");
+    properties.put("multi.command.1", "echo -n \"multi.command.1\"");
+    CommandLineVCS vcs = Mockito.spy(new CommandLineVCS(properties));
     String result = vcs.commandLineAction("multi.command",new HashMap<String, String>(), temporaryDir);
     verify(vcs, times(2)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals("multi.command.0...multi.command.1", result);

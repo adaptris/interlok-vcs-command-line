@@ -86,8 +86,6 @@ public class CommandLineRVC implements RuntimeVersionControl {
     }
   }
 
-
-
   @Override
   public void setBootstrapProperties(BootstrapProperties bootstrapProperties) {
     this.bootstrapProperties = bootstrapProperties;
@@ -95,7 +93,7 @@ public class CommandLineRVC implements RuntimeVersionControl {
 
   @Override
   public VersionControlSystem getApi(Properties properties) throws VcsException {
-    return new CommandLineVCS();
+    return new CommandLineVCS(properties);
   }
 
   public BootstrapProperties getBootstrapProperties() {

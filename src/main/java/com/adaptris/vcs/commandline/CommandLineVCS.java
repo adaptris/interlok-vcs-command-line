@@ -31,6 +31,10 @@ public class CommandLineVCS implements VersionControlSystem {
   public CommandLineVCS(){
   }
 
+  public CommandLineVCS(Properties properties){
+    commandProperties = properties;
+  }
+
   @Override
   public String testConnection(String remoteRepoUrl, File workingCopyUrl) throws VcsException {
     Map<String, String> substitutionMap = new HashMap<>();
