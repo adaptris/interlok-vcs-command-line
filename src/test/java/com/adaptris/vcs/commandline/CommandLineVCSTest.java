@@ -233,8 +233,8 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     assertNull(captureRepKey.getValue());
     assertNotNull(result);
     assertEquals(1, result.size());
-    assertEquals("revision", result.get(0).getRevision());
-    assertEquals("comment", result.get(0).getComment());
+    assertIsPartOf("revision", result.get(0).getRevision());
+    assertIsPartOf("comment", result.get(0).getComment());
   }
 
   @Test
@@ -252,8 +252,8 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     assertNull(captureRepKey.getValue());
     assertNotNull(result);
     assertEquals(1, result.size());
-    assertEquals("revision", result.get(0).getRevision());
-    assertEquals("comment something else", result.get(0).getComment());
+    assertIsPartOf("revision", result.get(0).getRevision());
+    assertIsPartOf("comment something else", result.get(0).getComment());
   }
 
   @Test
@@ -271,10 +271,10 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     assertNull(captureRepKey.getValue());
     assertNotNull(result);
     assertEquals(2, result.size());
-    assertEquals("revision1", result.get(0).getRevision());
-    assertEquals("comment1 something else", result.get(0).getComment());
-    assertEquals("revision2", result.get(1).getRevision());
-    assertEquals("comment2 something else", result.get(1).getComment());
+    assertIsPartOf("revision1", result.get(0).getRevision());
+    assertIsPartOf("comment1 something else", result.get(0).getComment());
+    assertIsPartOf("revision2", result.get(1).getRevision());
+    assertIsPartOf("comment2 something else", result.get(1).getComment());
   }
 
   @Test
@@ -325,5 +325,9 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
 
   private static void assertEqualsIgnoreCase(String first, String second) {
     assertEquals(first.toUpperCase(), second.toUpperCase());
+  }
+
+  private static void assertIsPartOf(String sub, String full) {
+    assertTrue(full.contains(sub));
   }
 }
