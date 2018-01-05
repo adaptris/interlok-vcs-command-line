@@ -24,7 +24,7 @@
   <publications>
      <artifact name="interlok-vcs-command-line" type="jar" ext="jar"/>
      <artifact name="interlok-vcs-command-line" type="pom" ext="pom"/>
-     <artifact name="interlok-vcs-command-line-javadoc" type="javadoc" ext="zip" conf="javadoc"/>
+
      <artifact type="javadoc" ext="jar" conf="javadoc" m:classifier="javadoc"/>
   </publications>
   <dependencies>
