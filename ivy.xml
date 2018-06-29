@@ -28,10 +28,10 @@
      <artifact type="javadoc" ext="jar" conf="javadoc" m:classifier="javadoc"/>
   </publications>
   <dependencies>
-    <dependency org="com.adaptris" name="adp-core" rev="${adp-core-version}" conf="compile->default;javadoc->javadoc" changing="true"/>
-    <dependency org="com.adaptris" name="interlok-common" rev="${adp-core-version}" conf="compile->default;javadoc->javadoc" changing="true"/>
-    <dependency org="com.adaptris" name="adp-stubs" rev="${adp-core-version}" changing="true" conf="test->default"/>
-    <dependency org="com.adaptris" name="adp-core-apt" rev="${adp-core-version}" conf="compile->default;ant->default" changing="true"/>
+    <dependency org="com.adaptris" name="interlok-core" rev="${interlok-core-version}" conf="compile->default;javadoc->javadoc" changing="true"/>
+    <dependency org="com.adaptris" name="interlok-common" rev="${interlok-core-version}" conf="compile->default;javadoc->javadoc" changing="true"/>
+    <dependency org="com.adaptris" name="interlok-stubs" rev="${interlok-core-version}" changing="true" conf="test->default"/>
+    <dependency org="com.adaptris" name="interlok-core-apt" rev="${interlok-core-version}" conf="compile->default;ant->default" changing="true"/>
 
     <dependency org="junit" name="junit" rev="4.11" conf="test->default"/>
 
