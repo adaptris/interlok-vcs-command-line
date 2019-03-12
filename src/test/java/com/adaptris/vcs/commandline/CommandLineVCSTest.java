@@ -60,7 +60,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     assertEquals("test.connection", result);
     assertEquals(VCS_COMMAND_LINE_TEST_CONNECTION, captorFilterKey.getValue());
     assertEquals(REMOTE_REPO, captorSubMap.getValue().get(VCS_REMOTE_REPO_URL_KEY));
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertNull(captureRepKey.getValue());
   }
 
@@ -86,7 +86,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     assertEquals("checkout", result);
     assertEquals(VCS_COMMAND_LINE_CHECKOUT, captorFilterKey.getValue());
     assertEquals(REMOTE_REPO, captorSubMap.getValue().get(VCS_REMOTE_REPO_URL_KEY));
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertNull(captureRepKey.getValue());
   }
 
@@ -99,7 +99,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     assertEquals("checkout", result);
     assertEquals(VCS_COMMAND_LINE_CHECKOUT, captorFilterKey.getValue());
     assertEquals(REMOTE_REPO, captorSubMap.getValue().get(VCS_REMOTE_REPO_URL_KEY));
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(REVISION, captorSubMap.getValue().get(VCS_REVISION_KEY));
     assertNull(captureRepKey.getValue());
   }
@@ -112,7 +112,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals("update", result);
     assertEquals(VCS_COMMAND_LINE_UPDATE, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertNull(captureRepKey.getValue());
   }
 
@@ -124,7 +124,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals("update", result);
     assertEquals(VCS_COMMAND_LINE_UPDATE, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(REVISION, captorSubMap.getValue().get(VCS_REVISION_KEY));
     assertNull(captureRepKey.getValue());
   }
@@ -136,7 +136,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals(VCS_COMMAND_LINE_COMMIT, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(COMMIT_MESSAGE, captorSubMap.getValue().get(VCS_COMMIT_MESSAGE_KEY));
     assertNull(captureRepKey.getValue());
   }
@@ -148,7 +148,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals(VCS_COMMAND_LINE_RECURSIVE_ADD, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertNull(captureRepKey.getValue());
   }
 
@@ -159,7 +159,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals(VCS_COMMAND_LINE_ADD_AND_COMMIT, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(COMMIT_MESSAGE, captorSubMap.getValue().get(VCS_COMMIT_MESSAGE_KEY));
     assertEquals("file1", captorSubMap.getValue().get(VCS_LOCAL_FILE_KEY + ".0"));
     assertEquals(VCS_LOCAL_FILE_KEY, captureRepKey.getValue());
@@ -172,7 +172,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(2)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals(VCS_COMMAND_LINE_ADD_AND_COMMIT, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(COMMIT_MESSAGE, captorSubMap.getValue().get(VCS_COMMIT_MESSAGE_KEY));
     assertEquals("file1", captorSubMap.getValue().get(VCS_LOCAL_FILE_KEY + ".0"));
     assertEquals("file2", captorSubMap.getValue().get(VCS_LOCAL_FILE_KEY + ".1"));
@@ -187,7 +187,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals("remote.revision", result);
     assertEquals(VCS_COMMAND_LINE_REMOTE_REVISION, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(REMOTE_REPO, captorSubMap.getValue().get(VCS_REMOTE_REPO_URL_KEY));
     assertNull(captureRepKey.getValue());
   }
@@ -200,7 +200,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals("local.revision", result);
     assertEquals(VCS_COMMAND_LINE_LOCAL_REVISION, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertNull(captureRepKey.getValue());
   }
 
@@ -212,7 +212,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(REMOTE_REPO, captorSubMap.getValue().get(VCS_REMOTE_REPO_URL_KEY));
     assertEquals("1", captorSubMap.getValue().get(VCS_LIMIT_KEY));
     assertNull(captureRepKey.getValue());
@@ -227,7 +227,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(REMOTE_REPO, captorSubMap.getValue().get(VCS_REMOTE_REPO_URL_KEY));
     assertEquals("1", captorSubMap.getValue().get(VCS_LIMIT_KEY));
     assertNull(captureRepKey.getValue());
@@ -246,7 +246,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(REMOTE_REPO, captorSubMap.getValue().get(VCS_REMOTE_REPO_URL_KEY));
     assertEquals("1", captorSubMap.getValue().get(VCS_LIMIT_KEY));
     assertNull(captureRepKey.getValue());
@@ -265,7 +265,7 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
     verify(vcs, times(1)).commandLineAction(captorFilterKey.capture(),captorSubMap.capture(),captureWorkingDir.capture(),captureRepKey.capture());
     verify(vcs, times(1)).executeCommand(any(Executor.class),anyString(),anyMapOf(String.class, String.class));
     assertEquals(VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY, captorFilterKey.getValue());
-    assertEqualsIgnoreCase(temporaryDir.getAbsolutePath(), captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
+    assertEquivalentFile(temporaryDir, captorSubMap.getValue().get(VCS_LOCAL_URL_KEY));
     assertEquals(REMOTE_REPO, captorSubMap.getValue().get(VCS_REMOTE_REPO_URL_KEY));
     assertEquals("1", captorSubMap.getValue().get(VCS_LIMIT_KEY));
     assertNull(captureRepKey.getValue());
@@ -329,5 +329,9 @@ public class CommandLineVCSTest extends CommandLineVCSCase {
 
   private static void assertIsPartOf(String sub, String full) {
     assertTrue(full.contains(sub));
+  }
+
+  private static void assertEquivalentFile(File f, String path) throws Exception {
+    assertEquals(f.getCanonicalPath(), new File(path).getCanonicalPath());
   }
 }
