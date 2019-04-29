@@ -1,22 +1,50 @@
 package com.adaptris.vcs.commandline;
 
-import com.adaptris.core.management.vcs.RevisionHistoryItem;
-import com.adaptris.core.management.vcs.VcsException;
-import com.adaptris.core.management.vcs.VersionControlSystem;
-import com.adaptris.core.util.PropertyHelper;
-import org.apache.commons.exec.*;
+import static com.adaptris.core.management.vcs.VcsConstants.VCS_LOCAL_URL_KEY;
+import static com.adaptris.core.management.vcs.VcsConstants.VCS_REMOTE_REPO_URL_KEY;
+import static com.adaptris.core.management.vcs.VcsConstants.VCS_REVISION_KEY;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_ADD_AND_COMMIT;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_CHECKOUT;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_COMMIT;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_LOCAL_REVISION;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_RECURSIVE_ADD;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_REMOTE_REVISION;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_REMOTE_REVISION_HISTORY;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_TEST_CONNECTION;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_TIMEOUT;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMAND_LINE_UPDATE;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_COMMIT_MESSAGE_KEY;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_LIMIT_KEY;
+import static com.adaptris.vcs.commandline.CommandLineVCSConstants.VCS_LOCAL_FILE_KEY;
+import static com.adaptris.vcs.commandline.CommandLineVCSUtils.fullpath;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteWatchdog;
+import org.apache.commons.exec.Executor;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.exec.util.StringUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-
-import static com.adaptris.core.management.vcs.VcsConstants.*;
-import static com.adaptris.vcs.commandline.CommandLineVCSConstants.*;
-import static com.adaptris.vcs.commandline.CommandLineVCSUtils.fullpath;
+import com.adaptris.core.management.vcs.RevisionHistoryItem;
+import com.adaptris.core.management.vcs.VcsException;
+import com.adaptris.core.management.vcs.VersionControlSystem;
+import com.adaptris.core.util.PropertyHelper;
 
 public class CommandLineVCS implements VersionControlSystem {
 
@@ -177,7 +205,8 @@ public class CommandLineVCS implements VersionControlSystem {
       DefaultExecutor executor = new DefaultExecutor();
       PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
       executor.setStreamHandler(streamHandler);
-      ExecuteWatchdog watchdog = new ExecuteWatchdog(Long.valueOf(getCommandProperties().getProperty(VCS_COMMAND_LINE_TIMEOUT, DEFAULT_TIMEOUT)));
+      ExecuteWatchdog watchdog = new ExecuteWatchdog(
+          Long.parseLong(getCommandProperties().getProperty(VCS_COMMAND_LINE_TIMEOUT, DEFAULT_TIMEOUT)));
       executor.setWatchdog(watchdog);
 
       List<String> repeatedKeys = getRepeatedKeys(substitutionMap, repeatedKey);
