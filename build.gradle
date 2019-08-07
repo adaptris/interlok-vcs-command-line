@@ -28,7 +28,7 @@ ext {
   componentName='Interlok Integration with commandline VCS'
   organizationName = "Adaptris Ltd"
   organizationUrl = "https://interlok.adaptris.net"
-  slf4jVersion = '1.7.26'
+  slf4jVersion = '1.7.27'
   log4j2Version = "2.12.0"
 }
 
