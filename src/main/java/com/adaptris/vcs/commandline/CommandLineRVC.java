@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.Properties;
 
 import static com.adaptris.core.management.vcs.VcsConstants.*;
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class CommandLineRVC implements RuntimeVersionControl {
 
