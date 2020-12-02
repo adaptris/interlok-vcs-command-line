@@ -272,6 +272,7 @@ publishing {
         properties.appendNode("target", "3.5.1+")
         properties.appendNode("tags", "vcs,hg,mercurial,cvs")
         properties.appendNode("license", "false")
+        properties.appendNode("deprecated", "Unloved, git pretty much won so we need to get over it")
       }
     }
   }
