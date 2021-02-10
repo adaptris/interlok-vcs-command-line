@@ -2,11 +2,13 @@
 
 [![GitHub tag](https://img.shields.io/github/tag/adaptris/interlok-vcs-command-line.svg)](https://github.com/adaptris/interlok-vcs-command-line/tags) [![codecov](https://codecov.io/gh/adaptris/interlok-vcs-command-line/branch/develop/graph/badge.svg)](https://codecov.io/gh/adaptris/interlok-vcs-command-line) [![Total alerts](https://img.shields.io/lgtm/alerts/g/adaptris/interlok-vcs-command-line.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/adaptris/interlok-vcs-command-line/alerts/)
 
+__This component was removed in Interlok 4.x__
+
 Checking out interlok configuration from a commandline based VCS on startup.
 
 ## Canonical Reference Documentation
 
-[https://interlok.adaptris.net/interlok-docs/advanced-vcs-command-line.html](https://interlok.adaptris.net/interlok-docs/advanced-vcs-command-line.html)
+[https://interlok.adaptris.net/interlok-docs/#/pages/advanced/advanced-vcs-command-line](https://interlok.adaptris.net/interlok-docs/#/pages/advanced/advanced-vcs-command-line)
 
 ## Quickstart ##
 
